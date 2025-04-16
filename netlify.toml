@@ -4,7 +4,13 @@
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--prefer-offline --no-audit"
+  NPM_FLAGS = "--no-optional"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+[functions]
+  # Include all necessary node modules for handling native dependencies
+  node_bundler = "esbuild"
+  external_node_modules = ["sharp", "canvas"]
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

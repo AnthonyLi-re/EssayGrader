@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 npm run clean-deps && next build",
+    "prebuild": "npm run clean-deps && npx node-pre-gyp rebuild -C ./node_modules/lightningcss",
+    "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 next build",
     "start": "next start",
     "lint": "next lint",
     "clean-deps": "rimraf node_modules/pdf-img-convert node_modules/canvas"
@@ -47,6 +48,7 @@
     "react-icons": "^5.5.0",
     "recharts": "^2.15.2",
     "rimraf": "^5.0.10",
+    "sharp": "^0.33.5",
     "tailwind-merge": "^3.2.0",
     "tw-animate-css": "^1.2.5",
     "zod": "^3.24.2",
@@ -55,6 +57,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@mapbox/node-pre-gyp": "^1.0.11",
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
