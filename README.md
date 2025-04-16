@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Essay Grading Platform
 
-## Getting Started
+A modern web application for grading essays with AI, built with Next.js, TypeScript, and Tailwind CSS.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **AI-Powered Essay Grading**: Uses Mistral AI (via OpenRouter) for analyzing and scoring essays based on content, language, and organization.
+- **OCR Integration**: Extracts text from uploaded PDF documents and images using Google Cloud Vision API.
+- **Two-Step Submission Process**: User-friendly interface for submitting essay questions and student responses.
+- **Score Breakdown**: Provides detailed feedback with scores for content, language, organization, and overall quality.
+
+## Setup
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Configure environment variables (see below)
+4. Run the development server: `npm run dev`
+
+## Required Environment Variables
+
+- `DATABASE_URL`: URL for the SQLite database
+- `NEXTAUTH_URL`: Your app's URL (http://localhost:3000 for development)
+- `NEXTAUTH_SECRET`: Secret key for NextAuth.js
+- `OPENROUTER_API_KEY`: Your OpenRouter API key for accessing Mistral AI models
+- `GOOGLE_CREDENTIALS_JSON`: JSON credentials for Google Cloud Vision API (for OCR)
+- OAuth provider credentials (if using Google Auth)
+
+## API Integrations
+
+### Mistral AI (via OpenRouter)
+The platform uses Mistral's AI models through OpenRouter's API for essay analysis and grading, providing detailed feedback and scoring through the `/api/openai` endpoint (despite the endpoint name).
+
+### Google Cloud Vision
+Used for extracting text from uploaded essay files (PDFs and images). Requires setting up the `GOOGLE_CREDENTIALS_JSON` environment variable with your Google Cloud credentials.
+
+## Example .env file
+
+```
+# Database
+DATABASE_URL="file:./dev.db"
+
+# Next Auth
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="your-secret-key-change-in-production"
+
+# Google OAuth (optional)
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+
+# OpenRouter API (for Mistral AI access)
+OPENROUTER_API_KEY="your-openrouter-api-key"
+
+# Google Cloud Vision API (for OCR)
+GOOGLE_CREDENTIALS_JSON="your-google-credentials-json"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## License
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License

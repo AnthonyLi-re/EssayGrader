@@ -1,0 +1,128 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  email          String    @unique
+  emailVerified  DateTime?
+  password       String?
+  image          String?
+  role           Role      @default(STUDENT)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  accounts   Account[]
+  sessions   Session[]
+  essays     Essay[]
+  classes    Class[]    @relation("TeacherClasses")
+  enrollment Student[]  @relation("StudentEnrollment")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Essay {
+  id            String         @id @default(cuid())
+  title         String
+  content       String
+  imageUrl      String?
+  prompt        String
+  authorId      String
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  author        User           @relation(fields: [authorId], references: [id])
+  feedback      Feedback?
+  classId       String?
+  class         Class?         @relation(fields: [classId], references: [id])
+}
+
+model Feedback {
+  id                String   @id @default(cuid())
+  essayId           String   @unique
+  contentScore      Int
+  languageScore     Int
+  organizationScore Int
+  totalScore        Int
+  feedback          String
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  essay             Essay    @relation(fields: [essayId], references: [id], onDelete: Cascade)
+}
+
+model Class {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  teacherId   String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  
+  teacher     User      @relation("TeacherClasses", fields: [teacherId], references: [id])
+  students    Student[] @relation("ClassStudents")
+  essays      Essay[]
+}
+
+model Student {
+  id        String   @id @default(cuid())
+  userId    String
+  classId   String
+  joinedAt  DateTime @default(now())
+  
+  user      User     @relation("StudentEnrollment", fields: [userId], references: [id])
+  class     Class    @relation("ClassStudents", fields: [classId], references: [id])
+  
+  @@unique([userId, classId])
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
