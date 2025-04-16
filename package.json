@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "NODE_OPTIONS='--max_old_space_size=4096' npm run clean-deps && next build",
+    "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 npm run clean-deps && next build",
     "start": "next start",
     "lint": "next lint",
     "clean-deps": "rimraf node_modules/pdf-img-convert node_modules/canvas"
@@ -29,6 +29,7 @@
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cross-env": "^7.0.3",
     "diff-match-patch": "^1.0.5",
     "jimp": "^1.6.0",
     "lucide-react": "^0.487.0",
