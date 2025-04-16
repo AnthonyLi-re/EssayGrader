@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "vercel-install": "bash ./build-scripts/install.sh",
     "dev": "next dev --turbopack",
     "build": "NODE_OPTIONS='--max_old_space_size=4096' npm run clean-deps && next build",
     "start": "next start",
