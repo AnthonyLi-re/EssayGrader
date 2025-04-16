@@ -1,6 +1,6 @@
 {
   "buildCommand": "npm run build",
-  "installCommand": "npm install",
+  "installCommand": "npm run vercel-install",
   "framework": "nextjs",
   "outputDirectory": ".next",
   "regions": ["iad1"],
@@ -10,6 +10,11 @@
     },
     "GOOGLE_CREDENTIALS_JSON": {
       "development": "@google-credentials-json"
+    }
+  },
+  "build": {
+    "env": {
+      "SKIP_INSTALL_DEPS": "true"
     }
   }
 } 
