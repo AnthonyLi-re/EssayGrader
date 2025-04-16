@@ -1,11 +1,14 @@
 [build]
   command = "npm run build"
   publish = ".next"
+  ignore_warnings = true
 
 [build.environment]
   NODE_VERSION = "20"
-  NPM_FLAGS = "--no-optional"
+  NPM_FLAGS = "--no-optional --legacy-peer-deps"
   NEXT_TELEMETRY_DISABLED = "1"
+  NETLIFY_USE_YARN = "false"
+  NETLIFY_EXPERIMENTAL_SKIP_BOOTING_PUPPETEER = "true"
 
 [functions]
   # Include all necessary node modules for handling native dependencies
