@@ -55,4 +55,8 @@ const config = {
 export default config;
 EOL
 
+# Fix globals.css for Tailwind 3 compatibility
+echo "Fixing globals.css for Tailwind 3 compatibility..."
+bash ./build-scripts/tailwind-fix.sh
+
 echo "Build preparation completed successfully!" 
