@@ -8,7 +8,8 @@
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 next build",
     "start": "next start",
     "lint": "next lint",
-    "clean-deps": "rimraf node_modules/pdf-img-convert node_modules/canvas"
+    "clean-deps": "rimraf node_modules/pdf-img-convert node_modules/canvas",
+    "netlifybuild": "bash ./build-scripts/install.sh && next build"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.16.0",
