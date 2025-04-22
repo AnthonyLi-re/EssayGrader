@@ -3,13 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "prebuild": "npm run clean-deps",
     "build": "cross-env NODE_OPTIONS=--max_old_space_size=4096 next build",
     "start": "next start",
     "lint": "next lint",
     "clean-deps": "rimraf node_modules/pdf-img-convert node_modules/canvas",
-    "netlifybuild": "bash ./build-scripts/install.sh && next build"
+    "netlifybuild": "bash ./build-scripts/netlify-build.sh && cross-env NODE_OPTIONS=--max_old_space_size=4096 next build"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.16.0",
@@ -58,15 +58,16 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/uuid": "^10.0.0",
+    "autoprefixer": "^10.4.16",
     "eslint": "^9",
     "eslint-config-next": "15.2.5",
-    "tailwindcss": "^4",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^3.3.6",
     "typescript": "^5"
   },
   "resolutions": {

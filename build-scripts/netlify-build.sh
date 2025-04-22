@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+echo "Running Netlify build script..."
 echo "Current directory: $(pwd)"
 
 # Make sure we're in the project root
@@ -15,16 +16,9 @@ if [ ! -f "package.json" ]; then
   fi
 fi
 
-echo "Installing dependencies..."
-npm install --no-optional
-
-# Remove Tailwind CSS 4 and related dependencies
-echo "Removing Tailwind CSS 4..."
-npm uninstall tailwindcss @tailwindcss/postcss lightningcss || true
-
-# Install Tailwind CSS 3 (stable version for production)
-echo "Installing Tailwind CSS 3..."
-npm install --save-dev tailwindcss@3.3.6 postcss@8.4.32 autoprefixer@10.4.16
+# Clean problematic dependencies first
+echo "Cleaning problematic dependencies..."
+rimraf node_modules/pdf-img-convert node_modules/canvas node_modules/@tailwindcss node_modules/lightningcss || true
 
 # Remove the resolutions and overrides for lightningcss
 echo "Updating package.json to remove lightningcss overrides..."
@@ -36,9 +30,17 @@ node -e "
   fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2));
 "
 
-# Clean problematic dependencies
-echo "Cleaning problematic dependencies..."
-rimraf node_modules/pdf-img-convert node_modules/canvas || true
+# Remove Tailwind CSS 4 and related dependencies
+echo "Removing Tailwind CSS 4..."
+npm uninstall tailwindcss @tailwindcss/postcss lightningcss || true
+
+# Install dependencies with clean slate
+echo "Installing dependencies..."
+npm install --no-optional
+
+# Install Tailwind CSS 3 (stable version for production)
+echo "Installing Tailwind CSS 3..."
+npm install --save-dev tailwindcss@3.3.6 postcss@8.4.32 autoprefixer@10.4.16
 
 # Update PostCSS config
 echo "Updating PostCSS config..."
@@ -53,4 +55,4 @@ const config = {
 export default config;
 EOL
 
-echo "Build script completed successfully!" 
+echo "Build preparation completed successfully!" 
